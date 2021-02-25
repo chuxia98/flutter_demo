@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'my_bloc/my_bloc.dart';
+import 'test/test.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,7 +34,10 @@ class MyHomePage extends StatelessWidget {
       ),
       body: _ListView(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          final route = MaterialPageRoute(builder: (_) => NewsScreen());
+          Navigator.of(context).push(route);
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
@@ -59,9 +63,10 @@ class _ListView extends StatelessWidget {
             final route = MaterialPageRoute(builder: (_) => page);
             Navigator.of(context).push(route);
           },
+          tileColor: index % 2 == 0 ? Colors.amber[100] : Colors.red[100],
           leading: Container(
             padding: EdgeInsets.all(10),
-            color: index % 2 == 0 ? Colors.amber[100] : Colors.red[100],
+            width: 100,
             alignment: Alignment.centerLeft,
             child: Text(key),
           ),
