@@ -99,10 +99,10 @@ class _ListView extends StatelessWidget {
   }
 }
 
-class _InnerView extends StatelessWidget {
+class InnerView extends StatelessWidget {
   final String name;
 
-  _InnerView({
+  InnerView({
     this.name,
   });
 
