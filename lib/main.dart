@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/src/src.dart';
 
 import 'my_bloc/my_bloc.dart';
 import 'test/test.dart';
@@ -48,6 +49,7 @@ class MyHomePage extends StatelessWidget {
 class _ListView extends StatelessWidget {
   final Map<String, Widget> items = const {
     'bloc use': const MyBlocPage(),
+    'animation': const AnimationPage(),
   };
 
   @override
