@@ -11,8 +11,8 @@ class AnimationPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Animation'),
       ),
-      // body: MyLogoApp(),
       body: Container(
+        padding: EdgeInsets.all(16),
         child: IconButton(
           icon: Icon(Icons.point_of_sale),
           onPressed: () {
