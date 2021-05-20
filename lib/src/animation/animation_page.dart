@@ -18,9 +18,14 @@ class AnimationPage extends StatelessWidget {
           onPressed: () {
             showGeneralDialog(
               context: context,
-              barrierColor: Colors.orange.withOpacity(0.1),
+              barrierColor: Colors.black.withOpacity(0.3),
               pageBuilder: (context, a, b) {
-                return MyLogoApp();
+                return PageView.builder(
+                  itemBuilder: (context, index) {
+                    return MyLogoApp();
+                  },
+                  itemCount: 3,
+                );
               },
             );
           },

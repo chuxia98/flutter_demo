@@ -12,8 +12,15 @@ class MyBlocPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MyBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MyBloc>(
+          create: (context) => MyBloc(),
+        ),
+        BlocProvider<MyCubit>(
+          create: (context) => MyCubit(),
+        ),
+      ],
       child: _ContentView(title: title),
     );
   }
@@ -34,7 +41,15 @@ class _ContentView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          _TextView(),
+          BlocListener<MyBloc, MyState>(
+            listener: (context, state) {
+              context.read<MyCubit>().increment(count: 12);
+              // if (state is MyTitleChangeSuccess) {
+              //   pageContext.read<MyCubit>().increment(count: 10);
+              // }
+            },
+            child: _TextView(),
+          ),
           RaisedButton(
             child: Text(
               'change text ',
@@ -54,13 +69,23 @@ class _ContentView extends StatelessWidget {
 class _TextView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // final pageContext = context;
     return BlocBuilder<MyBloc, MyState>(
       builder: (context, state) {
         if (state is MyTitleChangeSuccess) {
           return Container(
             padding: EdgeInsets.all(10),
             color: Colors.amber,
-            child: Text(state.title),
+            child: Column(
+              children: [
+                Text(state.title),
+                BlocBuilder<MyCubit, int>(
+                  builder: (context, state) {
+                    return Text('[cx] $state');
+                  },
+                ),
+              ],
+            ),
           );
         }
         return Container(

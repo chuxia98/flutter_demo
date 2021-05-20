@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
+import 'package:flutter_demo/src/src.dart';
 
 class MyLogoApp extends StatelessWidget {
   @override
@@ -15,22 +16,34 @@ class MyLogoApp extends StatelessWidget {
           Container(
             width: width,
             height: width,
-            color: Colors.red,
+            color: Colors.white,
             child: Container(
               width: 200,
               height: 200,
               child: FutureBuilder(
                 future: Future.delayed(
-                  Duration(seconds: 2),
+                  Duration(seconds: 1),
                   () => true,
                 ),
                 builder: (context, snap) {
                   if (snap.hasData) {
-                    return AnimationScale();
+                    return Stack(
+                      children: [
+                        ImageAnimation(
+                          entry: ImagesAnimationEntry(
+                            startIndex: 0,
+                            endIndex: 84,
+                            basePath: 'assets/images/medals/序列帧 - 03_',
+                          ),
+                          animationSeconds: 1450,
+                        ),
+                        AnimationScale(),
+                      ],
+                    );
                   }
                   return Center(
-                    child: Image.asset(
-                      'assets/images/medal_level_3_normal.png',
+                    child: CachedNetworkImage(
+                      imageUrl: darkURL,
                       width: 200,
                       height: 200,
                     ),
@@ -45,22 +58,22 @@ class MyLogoApp extends StatelessWidget {
   }
 }
 
+final lightURL =
+    'https://mybmwclub-media-dev.bmw-emall.cn/mybmw-public/system/system_medal/a6551bf9-9577-4603-bd87-a027d0f417cb.png';
+
+final darkURL =
+    'https://mybmwclub-media-dev.bmw-emall.cn/mybmw-public/system/system_medal/a6c1c132-2557-4b7a-8846-6381ba59cea6.png';
+
 class AnimationScale extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [
-        LogoApp(
-          imageUrl:
-              'https://img1.baidu.com/it/u=1741431004,2509692489&fm=26&fmt=auto&gp=0.jpg',
-          imagePath: 'assets/images/medal_level_3_normal.png',
-        ),
+        LogoApp(imageUrl: darkURL),
         LogoApp(
           isScale: false,
-          imageUrl:
-              'https://img1.baidu.com/it/u=1738731514,3938762464&fm=26&fmt=auto&gp=0.jpg',
-          imagePath: 'assets/images/medal_level_3.png',
+          imageUrl: lightURL,
         ),
       ],
     );
@@ -69,12 +82,10 @@ class AnimationScale extends StatelessWidget {
 
 class LogoApp extends StatefulWidget {
   final String imageUrl;
-  final String imagePath;
   final bool isScale;
 
   LogoApp({
     this.imageUrl,
-    this.imagePath,
     this.isScale = true,
   });
 
@@ -83,7 +94,6 @@ class LogoApp extends StatefulWidget {
 
 class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
   String get imageUrl => widget.imageUrl;
-  String get imagePath => widget.imagePath;
 
   Animation<double> animation;
   AnimationController controller;
@@ -91,7 +101,7 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
   initState() {
     super.initState();
     controller = AnimationController(
-      duration: const Duration(milliseconds: 1450),
+      duration: const Duration(milliseconds: 750),
       vsync: this,
     );
     animation = CurvedAnimation(
@@ -102,16 +112,15 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
   }
 
   Widget build(BuildContext context) {
-    // controller.reset();
-    // controller.forward();
     return AnimatedLogo(
       animation: animation,
       isScale: widget.isScale,
-      child: imagePath.isNotEmpty
-          ? Image.asset(imagePath)
-          : CachedNetworkImage(
-              imageUrl: imageUrl,
-            ),
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+        ),
+      ),
     );
   }
 
@@ -126,8 +135,8 @@ class AnimatedLogo extends AnimatedWidget {
   final Widget child;
 
   static final _opacityTween = new Tween<double>(begin: 1.0, end: 1.0);
-  static final _sizeTween = new Tween<double>(begin: 0.0, end: 200.0);
-  static final _sizeBigTween = new Tween<double>(begin: 200.0, end: 0.0);
+  static final _incrementTween = new Tween<double>(begin: 0.0, end: 200.0);
+  static final _decrementTween = new Tween<double>(begin: 200.0, end: 0.0);
 
   AnimatedLogo({
     Key key,
@@ -141,7 +150,7 @@ class AnimatedLogo extends AnimatedWidget {
 
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable;
-    final tween = isScale ? _sizeBigTween : _sizeTween;
+    final tween = isScale ? _decrementTween : _incrementTween;
     return Center(
       child: Opacity(
         opacity: _opacityTween.evaluate(animation) ?? 0.1,
