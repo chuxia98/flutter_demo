@@ -70,8 +70,8 @@ class AnimationScale extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        LogoApp(imageUrl: darkURL),
-        LogoApp(
+        MedalAnimation(imageUrl: darkURL),
+        MedalAnimation(
           isScale: false,
           imageUrl: lightURL,
         ),
@@ -80,11 +80,11 @@ class AnimationScale extends StatelessWidget {
   }
 }
 
-class LogoApp extends StatefulWidget {
+class MedalAnimation extends StatefulWidget {
   final String imageUrl;
   final bool isScale;
 
-  LogoApp({
+  MedalAnimation({
     this.imageUrl,
     this.isScale = true,
   });
@@ -92,7 +92,8 @@ class LogoApp extends StatefulWidget {
   _LogoAppState createState() => new _LogoAppState();
 }
 
-class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
+class _LogoAppState extends State<MedalAnimation>
+    with SingleTickerProviderStateMixin {
   String get imageUrl => widget.imageUrl;
 
   Animation<double> animation;
@@ -112,7 +113,7 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
   }
 
   Widget build(BuildContext context) {
-    return AnimatedLogo(
+    return AnimatedScaleImage(
       animation: animation,
       isScale: widget.isScale,
       child: AspectRatio(
@@ -130,15 +131,15 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
   }
 }
 
-class AnimatedLogo extends AnimatedWidget {
+class AnimatedScaleImage extends AnimatedWidget {
   final bool isScale;
   final Widget child;
 
-  static final _opacityTween = new Tween<double>(begin: 1.0, end: 1.0);
-  static final _incrementTween = new Tween<double>(begin: 0.0, end: 200.0);
-  static final _decrementTween = new Tween<double>(begin: 200.0, end: 0.0);
+  static final _opacityTween = Tween<double>(begin: 1.0, end: 1.0);
+  static final _incrementTween = Tween<double>(begin: 0.0, end: 200.0);
+  static final _decrementTween = Tween<double>(begin: 200.0, end: 0.0);
 
-  AnimatedLogo({
+  AnimatedScaleImage({
     Key key,
     Animation<double> animation,
     this.isScale = true,
@@ -153,8 +154,8 @@ class AnimatedLogo extends AnimatedWidget {
     final tween = isScale ? _decrementTween : _incrementTween;
     return Center(
       child: Opacity(
-        opacity: _opacityTween.evaluate(animation) ?? 0.1,
-        child: new Container(
+        opacity: _opacityTween.evaluate(animation),
+        child: Container(
           height: tween.evaluate(animation),
           width: tween.evaluate(animation),
           child: child,
