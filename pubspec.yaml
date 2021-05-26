@@ -52,6 +52,8 @@ flutter:
   assets:
     - assets/images/
     - assets/images/medals/
+    - assets/images/cover/
+    - assets/images/medal_placeholder.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

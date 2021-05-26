@@ -21,10 +21,7 @@ class MyLogoApp extends StatelessWidget {
               width: 200,
               height: 200,
               child: FutureBuilder(
-                future: Future.delayed(
-                  Duration(seconds: 1),
-                  () => true,
-                ),
+                future: Future.delayed(Duration(seconds: 1), () => true),
                 builder: (context, snap) {
                   if (snap.hasData) {
                     return Stack(
@@ -33,11 +30,20 @@ class MyLogoApp extends StatelessWidget {
                           entry: ImagesAnimationEntry(
                             startIndex: 0,
                             endIndex: 84,
-                            basePath: 'assets/images/medals/序列帧 - 03_',
+                            basePath: 'assets/images/medals/spin_',
                           ),
-                          animationSeconds: 1450,
+                          animationSeconds: 2450,
                         ),
                         AnimationScale(),
+                        // ScaleAnimation(),
+                        ImageAnimation(
+                          entry: ImagesAnimationEntry(
+                            startIndex: 0,
+                            endIndex: 84,
+                            basePath: 'assets/images/cover/cover_',
+                          ),
+                          animationSeconds: 2450,
+                        ),
                       ],
                     );
                   }
@@ -57,12 +63,6 @@ class MyLogoApp extends StatelessWidget {
     );
   }
 }
-
-final lightURL =
-    'https://mybmwclub-media-dev.bmw-emall.cn/mybmw-public/system/system_medal/a6551bf9-9577-4603-bd87-a027d0f417cb.png';
-
-final darkURL =
-    'https://mybmwclub-media-dev.bmw-emall.cn/mybmw-public/system/system_medal/a6c1c132-2557-4b7a-8846-6381ba59cea6.png';
 
 class AnimationScale extends StatelessWidget {
   @override
