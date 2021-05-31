@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
-class RotationAnimation extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return _MedalAnimation();
-  }
+class RotationAnimation extends StatefulWidget {
+  final Widget child;
+  final Duration duration;
+
+  RotationAnimation({
+    this.child,
+    this.duration,
+  });
+
+  _RotationAnimationState createState() => new _RotationAnimationState();
 }
 
-class _MedalAnimation extends StatefulWidget {
-  _LogoAppState createState() => new _LogoAppState();
-}
-
-class _LogoAppState extends State<_MedalAnimation>
+class _RotationAnimationState extends State<RotationAnimation>
     with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
@@ -19,41 +20,35 @@ class _LogoAppState extends State<_MedalAnimation>
   initState() {
     super.initState();
     controller = AnimationController(
-      duration: const Duration(milliseconds: 1450),
+      duration: widget.duration ?? const Duration(milliseconds: 1500),
       vsync: this,
     );
-    // animation = new Tween(begin: 0.0, end: 10.0).animate(controller);
     animation = CurvedAnimation(
       parent: controller,
-      curve: Curves.easeOut,
+      curve: Curves.linear,
     );
-
-    animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        controller.forward();
-      }
-    });
+    animation.addStatusListener(animationListener);
     controller.forward();
+  }
+
+  void animationListener(status) {
+    if (!mounted) return;
+    if (status == AnimationStatus.completed) {
+      controller.stop();
+    } else if (status == AnimationStatus.dismissed) {
+      controller.forward();
+    }
   }
 
   Widget build(BuildContext context) {
     return RotationTransition(
       turns: animation,
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: Image.asset(
-          'assets/images/medals/spin_00024.png',
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.contain,
-        ),
-      ),
+      child: widget.child,
     );
   }
 
-  dispose() {
+  @override
+  void dispose() {
     controller.dispose();
     super.dispose();
   }

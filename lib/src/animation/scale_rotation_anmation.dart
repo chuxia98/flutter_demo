@@ -59,7 +59,6 @@ class AnimatedScaleImage extends AnimatedWidget {
   final Widget child;
 
   static final _opacityTween = Tween<double>(begin: 1.0, end: 1.0);
-  static final _incrementTween = Tween<double>(begin: 200.0, end: 200.0);
   static final _decrementTween = Tween<double>(begin: 200.0, end: 0.0);
 
   AnimatedScaleImage({
@@ -73,7 +72,7 @@ class AnimatedScaleImage extends AnimatedWidget {
 
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable;
-    final tween = true ? _decrementTween : _incrementTween;
+    final tween = _decrementTween;
     return Center(
       child: Opacity(
         opacity: _opacityTween.evaluate(animation),

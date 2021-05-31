@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/src/animation/image_animation.dart';
-import 'package:flutter_demo/src/animation/rotation_animation.dart';
 
 import 'animation.dart';
 
@@ -36,13 +34,22 @@ class AnimationPage extends StatelessWidget {
                 },
               ),
               Container(
-                height: 300,
-                color: Colors.red.withOpacity(0.3),
-                child: RotationAnimation(),
-              ),
-              Container(
-                height: 300,
-                child: AnimationScale(),
+                color: Colors.green.withOpacity(0.3),
+                width: 240,
+                height: 240,
+                child: OpacityAnimation(
+                  child: RotationAnimation(
+                    child: AspectRatio(
+                      aspectRatio: 1.0,
+                      child: Image.asset(
+                        'assets/images/spin.png',
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               ImageAnimation(
                 entry: ImagesAnimationEntry(
@@ -51,7 +58,12 @@ class AnimationPage extends StatelessWidget {
                   basePath: 'assets/images/medals/spin_',
                 ),
                 animationSeconds: 2450,
-              )
+                isRepeat: true,
+              ),
+              Container(
+                height: 300,
+                child: AnimationScale(),
+              ),
             ],
           ),
         ),

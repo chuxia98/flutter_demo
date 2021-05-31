@@ -6,6 +6,7 @@ class ImageAnimation extends StatefulWidget {
   final double height;
   final ImagesAnimationEntry entry;
   final int animationSeconds;
+  final bool isRepeat;
 
   ImageAnimation({
     Key key,
@@ -13,6 +14,7 @@ class ImageAnimation extends StatefulWidget {
     this.height,
     this.entry,
     this.animationSeconds = 3000,
+    this.isRepeat = false,
   }) : super(key: key);
 
   @override
@@ -43,16 +45,31 @@ class _ImageAnimationState extends State<ImageAnimation>
       begin: entry.startIndex,
       end: entry.endIndex,
     ).animate(_controller);
+
+    if (widget.isRepeat) {
+      _animation.addStatusListener((status) {
+        if (!mounted) return;
+        if (status == AnimationStatus.completed) {
+          _controller.reset();
+          _controller.forward();
+        } else if (status == AnimationStatus.dismissed) {
+          _controller.forward();
+        }
+      });
+    }
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    _controller.reset();
+    _controller.forward();
+    // print('object ${_animation.value}');
     return AnimatedBuilder(
       key: Key('imageAnimation_main_animatedBuilder'),
       animation: _animation,
