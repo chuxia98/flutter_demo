@@ -34,6 +34,22 @@ class AnimationPage extends StatelessWidget {
                 },
               ),
               Container(
+                color: Colors.pink.withOpacity(0.3),
+                // height: double.infinity,
+                width: double.infinity,
+                height: 300,
+                child: Center(
+                  child: ScaleAnimation(
+                    end: 100,
+                    child: Container(
+                      color: Colors.purple.withOpacity(0.3),
+                      height: 120,
+                      width: 120,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
                 color: Colors.green.withOpacity(0.3),
                 width: 240,
                 height: 240,
