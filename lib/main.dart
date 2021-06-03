@@ -3,6 +3,7 @@ import 'package:flutter_demo/src/src.dart';
 
 import 'my_bloc/my_bloc.dart';
 import 'test/test.dart';
+import 'page/page.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,6 +51,7 @@ class _ListView extends StatelessWidget {
   final Map<String, Widget> items = const {
     'bloc use': const MyBlocPage(),
     'animation': const AnimationPage(),
+    'dismissible': const DismissiblePage(),
   };
 
   @override
