@@ -27,12 +27,17 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
-  flutter_bloc: ^7.0.0
-  equatable: ^2.0.0
+  flutter_bloc: ^6.1.1
+  equatable: ^1.0.1
   sprintf: ^6.0.0
   cached_network_image: ^3.0.0
   flutter_slidable: ^0.5.4
   json_annotation: ^3.0.1 # json序列化和反序列化用的
+
+  joy_ui:
+    git:
+      url: git@code.connected.bmw:mobile20/joy-ui.git
+      ref: 0fee4da2e68bc53fc216c6f1d41f6534967eed3c
 
 dev_dependencies:
   flutter_test:

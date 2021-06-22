@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/src/src.dart';
+import 'package:joy_ui/joy_ui.dart';
+import 'package:startup_configuration/startup_configuration.dart';
 
 import 'my_bloc/my_bloc.dart';
 import 'test/test.dart';
 import 'page/page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(_BlocProvider());
+}
+
+class _BlocProvider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (_) => JoyThemeBloc(
+                  brand: Brand.bmw,
+                )),
+      ],
+      child: BlocBuilder<JoyThemeBloc, JoyThemeState>(
+        builder: (c, s) {
+          return MyApp();
+        },
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -67,6 +89,7 @@ class _ListView extends StatelessWidget {
     'bloc use': const MyBlocPage(),
     'animation': const AnimationPage(),
     'dismissible': const DismissiblePage(),
+    'joy': const JoyPage(),
   };
 
   @override
