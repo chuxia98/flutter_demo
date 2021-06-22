@@ -30,6 +30,21 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final string = 'lesson my name is tom/vA/ hhh';
+
+    final exp = new RegExp(r"/.*/");
+    final sources = exp.allMatches(string);
+
+    if (sources.isNotEmpty) {
+      sources.map((e) {
+        print('[---] ${e.group(0)}');
+      });
+
+      final text = sources.first.group(0);
+      final array = string.split(text);
+
+      print(array);
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(title),

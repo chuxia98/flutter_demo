@@ -50,7 +50,7 @@ class _ContentView extends StatelessWidget {
             },
             child: _TextView(),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text(
               'change text ',
             ),
