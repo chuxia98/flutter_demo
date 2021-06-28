@@ -4,7 +4,6 @@ import 'package:flutter_demo/src/src.dart';
 import 'package:joy_ui/joy_ui.dart';
 import 'package:startup_configuration/startup_configuration.dart';
 
-import 'my_bloc/my_bloc.dart';
 import 'test/test.dart';
 import 'page/page.dart';
 
@@ -90,6 +89,7 @@ class _ListView extends StatelessWidget {
     'animation': const AnimationPage(),
     'dismissible': const DismissiblePage(),
     'joy': const JoyPage(),
+    'Videoplayer List': const VideoplayerListPage(),
   };
 
   @override

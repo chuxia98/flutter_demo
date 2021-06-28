@@ -32,6 +32,7 @@ class JoyPage extends StatelessWidget {
                 weight: JoyTagWeight.light,
               ),
               subtitle: '评论 100',
+              onTap: () {},
             ),
           ],
         ),
