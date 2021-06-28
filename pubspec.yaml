@@ -34,11 +34,6 @@ dependencies:
   flutter_slidable: ^0.5.4
   json_annotation: ^3.0.1
   video_player: ^2.1.6
-  
-  joy_ui:
-    git:
-      url: git@code.connected.bmw:mobile20/joy-ui.git
-      ref: 0fee4da2e68bc53fc216c6f1d41f6534967eed3c
 
 dev_dependencies:
   flutter_test:

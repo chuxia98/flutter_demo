@@ -12,7 +12,5 @@ class VideoListBloc extends Bloc<VideoListEvent, VideoListState> {
   @override
   Stream<VideoListState> mapEventToState(
     VideoListEvent event,
-  ) async* {
-    // TODO: implement mapEventToState
-  }
+  ) async* {}
 }
