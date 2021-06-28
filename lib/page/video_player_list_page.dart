@@ -116,8 +116,10 @@ class __VideoItemState extends State<_VideoItem> {
   void initState() {
     super.initState();
 
-    model = CustomPlayerModel(url: url);
-    players[url] = model;
+    if (!players.containsKey(url)) {
+      model = CustomPlayerModel(url: url);
+      players[url] = model;
+    }
   }
 
   @override
