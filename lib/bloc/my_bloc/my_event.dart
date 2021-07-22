@@ -6,7 +6,7 @@ class MyTitleChanged extends MyEvent {
   final String title;
 
   MyTitleChanged({
-    this.title,
+    this.title = '',
   });
 
   @override

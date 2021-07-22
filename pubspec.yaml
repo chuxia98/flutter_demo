@@ -32,8 +32,10 @@ dependencies:
   sprintf: ^6.0.0
   cached_network_image: ^3.0.0
   flutter_slidable: ^0.5.4
-  json_annotation: ^3.0.1
+
   video_player: ^2.1.6
+
+  json_annotation: ^3.0.1 # json序列化和反序列化用的
 
 dev_dependencies:
   flutter_test:
