@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/bloc.dart';
 
 class MyBlocPage extends StatelessWidget {
-  final String title;
+  final String? title;
 
   const MyBlocPage({
     this.title,
@@ -27,7 +27,7 @@ class MyBlocPage extends StatelessWidget {
 }
 
 class _ContentView extends StatelessWidget {
-  final String title;
+  final String? title;
 
   const _ContentView({
     this.title,

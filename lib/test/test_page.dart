@@ -23,8 +23,8 @@ class TestPage extends StatelessWidget {
 }
 
 class _JoyIconTag extends StatelessWidget {
-  final String text;
-  final IconData iconData;
+  final String? text;
+  final IconData? iconData;
 
   _JoyIconTag({
     this.text,
@@ -51,7 +51,7 @@ class _JoyIconTag extends StatelessWidget {
             size: 16,
           ),
           Text(
-            text,
+            text ?? '',
             style: TextStyle(color: Colors.white),
             maxLines: 1,
           ),

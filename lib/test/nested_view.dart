@@ -25,8 +25,7 @@ class _NewsScreenState extends State<NewsScreen> {
         body: DefaultTabController(
           length: _tabs.length, // This is the number of tabs.
           child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
               // These are the slivers that show up in the "outer" scroll view.
               return <Widget>[
                 SliverOverlapAbsorber(
@@ -37,8 +36,7 @@ class _NewsScreenState extends State<NewsScreen> {
                   // scroll view thinks it has not been scrolled.
                   // This is not necessary if the "headerSliverBuilder" only builds
                   // widgets that do not overlap the next sliver.
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                   sliver: SliverSafeArea(
                     top: false,
                     sliver: SliverAppBar(
@@ -50,9 +48,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       forceElevated: innerBoxIsScrolled,
                       bottom: TabBar(
                         // These are the widgets to put in each tab in the tab bar.
-                        tabs: _tabs
-                            .map((String name) => Tab(text: name))
-                            .toList(),
+                        tabs: _tabs.map((name) => Tab(text: name)).toList(),
                       ),
                     ),
                   ),
@@ -61,7 +57,7 @@ class _NewsScreenState extends State<NewsScreen> {
             },
             body: TabBarView(
               // These are the contents of the tab views, below the tabs.
-              children: _tabs.map((String name) {
+              children: _tabs.map((name) {
                 return _ListView(name: name);
               }).toList(),
             ),
@@ -73,7 +69,7 @@ class _NewsScreenState extends State<NewsScreen> {
 }
 
 class _ListView extends StatelessWidget {
-  final String name;
+  final String? name;
 
   _ListView({
     this.name,
@@ -90,8 +86,7 @@ class _ListView extends StatelessWidget {
         itemExtent: 60.0,
         itemBuilder: (context, index) {
           return Container(
-            color: Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
-                .withOpacity(1.0),
+            color: Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0),
           );
         },
       ),
@@ -100,7 +95,7 @@ class _ListView extends StatelessWidget {
 }
 
 class InnerView extends StatelessWidget {
-  final String name;
+  final String? name;
 
   InnerView({
     this.name,
@@ -115,7 +110,7 @@ class InnerView extends StatelessWidget {
         // This Builder is needed to provide a BuildContext that is "inside"
         // the NestedScrollView, so that sliverOverlapAbsorberHandleFor() can
         // find the NestedScrollView.
-        builder: (BuildContext context) {
+        builder: (context) {
           return CustomScrollView(
             // The "controller" and "primary" members should be left
             // unset, so that the NestedScrollView can control this
@@ -125,7 +120,7 @@ class InnerView extends StatelessWidget {
             // The PageStorageKey should be unique to this ScrollView;
             // it allows the list to remember its scroll position when
             // the tab view is not on the screen.
-            key: PageStorageKey<String>(name),
+            key: PageStorageKey<String>(name ?? ''),
             slivers: <Widget>[
               SliverOverlapInjector(
                 // This is the flip side of the SliverOverlapAbsorber above.
@@ -145,14 +140,10 @@ class InnerView extends StatelessWidget {
                   // ListTile widgets.
                   itemExtent: 60.0,
                   delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
+                    (context, index) {
                       // This builder is called for each child.
                       // In this example, we just number each list item.
-                      return Container(
-                          color: Color(
-                                  (Random().nextDouble() * 0xFFFFFF).toInt() <<
-                                      0)
-                              .withOpacity(1.0));
+                      return Container(color: Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0));
                     },
                     // The childCount of the SliverChildBuilderDelegate
                     // specifies how many children this inner list

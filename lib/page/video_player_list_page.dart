@@ -22,31 +22,34 @@ class PlayerReloadCubit extends Cubit<String> {
 Map<String, CustomPlayerModel> players = {};
 
 class CustomPlayerModel {
-  final String url;
+  final String? url;
 
   CustomPlayerModel({
     this.url,
   }) {
-    _controller = VideoPlayerController.network(url);
-    _initialize = _controller.initialize();
+    _controller = VideoPlayerController.network(url ?? '');
+    _initialize = _controller?.initialize();
   }
 
-  Future _initialize;
-  VideoPlayerController _controller;
+  Future? _initialize;
+  VideoPlayerController? _controller;
   bool _isDisposed = false;
 
-  Future get initialize => _initialize;
-  VideoPlayerController get controller => _controller;
+  Future? get initialize => _initialize;
+  VideoPlayerController? get controller => _controller;
   bool get isDisposed => _isDisposed;
 
-  bool get isPlaying => _controller.value?.isPlaying ?? false;
+  bool get isPlaying => _controller?.value.isPlaying ?? false;
 
-  Future play() => _controller.play();
-  Future pause() => _controller.pause();
+  Future<void> play() async {
+    _controller?.play();
+  }
+
+  Future<void>? pause() => _controller?.pause();
 
   Future<void> dispose() async {
     _isDisposed = true;
-    await _controller.dispose();
+    await _controller?.dispose();
   }
 }
 
@@ -87,7 +90,7 @@ class _VideoItem extends StatefulWidget {
   final String url;
 
   _VideoItem({
-    this.url,
+    required this.url,
   });
 
   @override
@@ -97,18 +100,18 @@ class _VideoItem extends StatefulWidget {
 class __VideoItemState extends State<_VideoItem> {
   String get url => widget.url;
 
-  CustomPlayerModel model;
+  CustomPlayerModel? model;
 
   @override
   void dispose() {
-    model.dispose();
+    model?.dispose();
     players.remove(url);
     super.dispose();
   }
 
   @override
   void deactivate() {
-    model.pause();
+    model?.pause();
     super.deactivate();
   }
 
@@ -116,9 +119,9 @@ class __VideoItemState extends State<_VideoItem> {
   void initState() {
     super.initState();
 
-    if (!players.containsKey(url)) {
+    if (!players.containsKey(url) && model != null) {
       model = CustomPlayerModel(url: url);
-      players[url] = model;
+      players[url] = model!;
     }
   }
 
@@ -128,7 +131,7 @@ class __VideoItemState extends State<_VideoItem> {
       child: AspectRatio(
         aspectRatio: 16 / 9.0,
         child: FutureBuilder(
-          future: model.initialize,
+          future: model?.initialize,
           builder: (context, snap) {
             if (snap.connectionState == ConnectionState.done) {
               return Stack(
@@ -136,13 +139,13 @@ class __VideoItemState extends State<_VideoItem> {
                 children: [
                   Container(
                     color: _.randColor,
-                    child: VideoPlayer(model.controller),
+                    child: VideoPlayer(model!.controller!),
                   ),
-                  model.isPlaying
+                  (model?.isPlaying ?? false)
                       ? PlayButton(
                           iconData: Icons.pause,
                           onTap: () async {
-                            await model.pause();
+                            await model?.pause();
                             context.read<PlayerReloadCubit>().reload(url);
                           },
                         )
@@ -151,7 +154,7 @@ class __VideoItemState extends State<_VideoItem> {
                             players.forEach((key, current) async {
                               await current.pause();
                             });
-                            await model.play();
+                            await model?.play();
                             context.read<PlayerReloadCubit>().reload(url);
                           },
                         ),
@@ -181,8 +184,8 @@ class _VideoLoading extends StatelessWidget {
 }
 
 class PlayButton extends StatelessWidget {
-  final Function onTap;
-  final IconData iconData;
+  final Function()? onTap;
+  final IconData? iconData;
 
   const PlayButton({
     this.onTap,

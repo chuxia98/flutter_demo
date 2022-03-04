@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class OpacityAnimation extends StatefulWidget {
-  final Widget child;
-  final Duration duration;
+  final Widget? child;
+  final Duration? duration;
   final double begin;
   final double end;
 
@@ -17,12 +17,11 @@ class OpacityAnimation extends StatefulWidget {
   _OpacityAnimationState createState() => _OpacityAnimationState();
 }
 
-class _OpacityAnimationState extends State<OpacityAnimation>
-    with SingleTickerProviderStateMixin {
-  Animation<double> animation;
-  AnimationController controller;
+class _OpacityAnimationState extends State<OpacityAnimation> with SingleTickerProviderStateMixin {
+  late Animation<double> animation;
+  late AnimationController controller;
 
-  initState() {
+  void initState() {
     super.initState();
     controller = AnimationController(
       duration: widget.duration ?? const Duration(milliseconds: 350),
@@ -37,7 +36,7 @@ class _OpacityAnimationState extends State<OpacityAnimation>
     controller.forward();
   }
 
-  void animationListener(status) {
+  void animationListener(AnimationStatus status) {
     if (!mounted) return;
     if (status == AnimationStatus.completed) {
       Future.delayed(Duration(seconds: 1), () {
@@ -64,11 +63,11 @@ class _OpacityAnimationState extends State<OpacityAnimation>
 }
 
 class _AnimatedOpacity extends AnimatedWidget {
-  final Widget child;
+  final Widget? child;
 
   _AnimatedOpacity({
-    Key key,
-    Animation<double> animation,
+    Key? key,
+    required Animation<double> animation,
     @required this.child,
   }) : super(
           key: key,
@@ -76,7 +75,7 @@ class _AnimatedOpacity extends AnimatedWidget {
         );
 
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
+    final Animation<double> animation = listenable as Animation<double>;
     return Center(
       child: Opacity(
         opacity: animation.value,

@@ -11,6 +11,7 @@ class DismissiblePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextField();
     return Scaffold(
       appBar: AppBar(
         title: Text('Dismissible'),

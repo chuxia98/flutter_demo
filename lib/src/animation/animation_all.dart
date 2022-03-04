@@ -81,7 +81,7 @@ class AnimationScale extends StatelessWidget {
 }
 
 class MedalAnimation extends StatefulWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final bool isScale;
 
   MedalAnimation({
@@ -92,14 +92,13 @@ class MedalAnimation extends StatefulWidget {
   _LogoAppState createState() => new _LogoAppState();
 }
 
-class _LogoAppState extends State<MedalAnimation>
-    with SingleTickerProviderStateMixin {
-  String get imageUrl => widget.imageUrl;
+class _LogoAppState extends State<MedalAnimation> with SingleTickerProviderStateMixin {
+  String? get imageUrl => widget.imageUrl;
 
-  Animation<double> animation;
-  AnimationController controller;
+  late Animation<double> animation;
+  late AnimationController controller;
 
-  initState() {
+  void initState() {
     super.initState();
     controller = AnimationController(
       duration: const Duration(milliseconds: 750),
@@ -119,13 +118,13 @@ class _LogoAppState extends State<MedalAnimation>
       child: AspectRatio(
         aspectRatio: 1.0,
         child: CachedNetworkImage(
-          imageUrl: imageUrl,
+          imageUrl: imageUrl ?? '',
         ),
       ),
     );
   }
 
-  dispose() {
+  void dispose() {
     controller.dispose();
     super.dispose();
   }
@@ -140,17 +139,17 @@ class AnimatedScaleImage extends AnimatedWidget {
   static final _decrementTween = Tween<double>(begin: 200.0, end: 0.0);
 
   AnimatedScaleImage({
-    Key key,
-    Animation<double> animation,
+    Key? key,
+    required Animation<double> animation,
     this.isScale = true,
-    @required this.child,
+    required this.child,
   }) : super(
           key: key,
           listenable: animation,
         );
 
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
+    final Animation<double> animation = listenable as Animation<double>;
     final tween = isScale ? _decrementTween : _incrementTween;
     return Center(
       child: Opacity(

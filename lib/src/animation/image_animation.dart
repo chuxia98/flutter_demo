@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:sprintf/sprintf.dart';
 
 class ImageAnimation extends StatefulWidget {
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final ImagesAnimationEntry entry;
   final int animationSeconds;
   final bool isRepeat;
 
   ImageAnimation({
-    Key key,
+    Key? key,
     this.width,
     this.height,
-    this.entry,
+    required this.entry,
     this.animationSeconds = 3000,
     this.isRepeat = false,
   }) : super(key: key);
@@ -21,18 +21,17 @@ class ImageAnimation extends StatefulWidget {
   _ImageAnimationState createState() => _ImageAnimationState();
 }
 
-class _ImageAnimationState extends State<ImageAnimation>
-    with TickerProviderStateMixin {
+class _ImageAnimationState extends State<ImageAnimation> with TickerProviderStateMixin {
   int get animationSeconds => widget.animationSeconds;
 
-  double get width => widget.width;
+  double? get width => widget.width;
 
-  double get height => widget.height;
+  double? get height => widget.height;
 
   ImagesAnimationEntry get entry => widget.entry;
 
-  AnimationController _controller;
-  Animation<int> _animation;
+  late AnimationController _controller;
+  late Animation<int> _animation;
 
   @override
   void initState() {
@@ -73,7 +72,7 @@ class _ImageAnimationState extends State<ImageAnimation>
     return AnimatedBuilder(
       key: Key('imageAnimation_main_animatedBuilder'),
       animation: _animation,
-      builder: (BuildContext context, Widget child) {
+      builder: (context, child) {
         String name = sprintf('%05d', [_animation.value]);
         return Image.asset(
           '${entry.basePath}$name.png',
@@ -87,13 +86,13 @@ class _ImageAnimationState extends State<ImageAnimation>
 }
 
 class ImagesAnimationEntry {
-  int startIndex = 0;
-  int endIndex = 0;
-  String basePath;
+  final int startIndex;
+  final int endIndex;
+  final String basePath;
 
   ImagesAnimationEntry({
-    this.startIndex,
-    this.endIndex,
+    this.startIndex = 0,
+    this.endIndex = 0,
     this.basePath = 'assets/images/check_in/check',
   });
 }

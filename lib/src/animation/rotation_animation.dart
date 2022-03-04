@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RotationAnimation extends StatefulWidget {
-  final Widget child;
-  final Duration duration;
+  final Widget? child;
+  final Duration? duration;
 
   RotationAnimation({
     this.child,
@@ -12,12 +12,11 @@ class RotationAnimation extends StatefulWidget {
   _RotationAnimationState createState() => new _RotationAnimationState();
 }
 
-class _RotationAnimationState extends State<RotationAnimation>
-    with SingleTickerProviderStateMixin {
-  Animation<double> animation;
-  AnimationController controller;
+class _RotationAnimationState extends State<RotationAnimation> with SingleTickerProviderStateMixin {
+  late Animation<double> animation;
+  late AnimationController controller;
 
-  initState() {
+  void initState() {
     super.initState();
     controller = AnimationController(
       duration: widget.duration ?? const Duration(milliseconds: 1500),
@@ -31,7 +30,7 @@ class _RotationAnimationState extends State<RotationAnimation>
     controller.forward();
   }
 
-  void animationListener(status) {
+  void animationListener(AnimationStatus status) {
     if (!mounted) return;
     if (status == AnimationStatus.completed) {
       controller.stop();

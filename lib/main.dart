@@ -11,6 +11,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // AnimatedDefaultTextStyle();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -56,7 +57,7 @@ class MyHomePage extends StatelessWidget {
         print('[---] ${e.group(0)}');
       });
 
-      final text = sources.first.group(0);
+      final text = sources.first.group(0) ?? '';
       final array = string.split(text);
 
       print(array);
@@ -70,6 +71,7 @@ class _ListView extends StatelessWidget {
     'animation': const AnimationPage(),
     'dismissible': const DismissiblePage(),
     'Videoplayer List': const VideoplayerListPage(),
+    'TextField': const VideoplayerListPage(),
   };
 
   @override
@@ -82,7 +84,7 @@ class _ListView extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           onTap: () {
             final page = items[key];
-            final route = MaterialPageRoute(builder: (_) => page);
+            final route = MaterialPageRoute(builder: (_) => page!);
             Navigator.of(context).push(route);
           },
           tileColor: index % 2 == 0 ? Colors.amber[100] : Colors.red[100],

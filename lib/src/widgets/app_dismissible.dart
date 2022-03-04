@@ -8,18 +8,18 @@ class AppDismissible extends StatelessWidget {
   final Widget listItem;
   final bool dragToRemove;
   final ActionConfiguration removeAction;
-  final ActionConfiguration editAction;
-  final ConfirmationDialogConfiguration confirmationRemoveDialog;
-  final SnackbarConfiguration onDismissedSnackbar;
-  final FutureOr<bool> Function() willDismissCondition;
+  final ActionConfiguration? editAction;
+  final ConfirmationDialogConfiguration? confirmationRemoveDialog;
+  final SnackbarConfiguration? onDismissedSnackbar;
+  final FutureOr<bool> Function()? willDismissCondition;
   final bool showActionIcon;
-  final JoySlidableController slidableController;
+  final JoySlidableController? slidableController;
 
   AppDismissible({
-    Key key,
-    @required this.slidableKey,
-    @required this.listItem,
-    @required this.removeAction,
+    Key? key,
+    required this.slidableKey,
+    required this.listItem,
+    required this.removeAction,
     this.dragToRemove = true,
     this.editAction,
     this.confirmationRemoveDialog,
@@ -27,10 +27,7 @@ class AppDismissible extends StatelessWidget {
     this.willDismissCondition,
     this.showActionIcon = false,
     this.slidableController,
-  })  : assert(slidableKey != null),
-        assert(listItem != null),
-        assert(removeAction != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,31 +40,8 @@ class AppDismissible extends StatelessWidget {
           onWillDismiss: (_) async {
             var result = true;
             if (willDismissCondition != null) {
-              result = await willDismissCondition();
+              result = await willDismissCondition?.call() ?? false;
             }
-            // if (confirmationRemoveDialog != null &&
-            //     dragToRemove &&
-            //     result == true) {
-            //   await JoyDialog(
-            //     title: confirmationRemoveDialog.dialogTitle,
-            //     description: confirmationRemoveDialog.dialogDescription,
-            //     actions: <Widget>[
-            //       JoyButton.primary(
-            //         text: confirmationRemoveDialog.confirmLabel,
-            //         onPressed: () {
-            //           JoyDialog.close(context);
-            //         },
-            //       ),
-            //       JoyButton.secondary(
-            //         text: confirmationRemoveDialog.cancelLabel,
-            //         onPressed: () {
-            //           JoyDialog.close(context);
-            //           result = false;
-            //         },
-            //       ),
-            //     ],
-            //   ).show(context);
-            // }
             return result;
           },
           onDismissed: (_) {
@@ -78,8 +52,7 @@ class AppDismissible extends StatelessWidget {
       child: listItem,
       secondaryActionDelegate: SlideActionBuilderDelegate(
         actionCount: editAction != null ? 2 : 1,
-        builder: (context, index, animation, renderingMode) =>
-            _buildSlidableAction(
+        builder: (context, index, animation, renderingMode) => _buildSlidableAction(
           context,
           index,
           showIcon: showActionIcon,
@@ -96,20 +69,20 @@ class AppDismissible extends StatelessWidget {
     final isEditAction = index == 0 && editAction != null;
     if (isEditAction) {
       return SlideAction(
-        color: editAction.backgroundColor ?? Colors.red,
+        color: editAction?.backgroundColor ?? Colors.red,
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 8,
           ),
-          child: (showIcon && editAction.icon != null)
-              ? Icon(editAction.icon, color: Colors.orange)
+          child: (showIcon && editAction?.icon != null)
+              ? Icon(editAction?.icon, color: Colors.orange)
               : Text(
-                  editAction.label,
+                  editAction?.label ?? '',
                   maxLines: 1,
                 ),
         ),
-        closeOnTap: editAction.closeOnTap,
-        onTap: editAction.performAction,
+        closeOnTap: editAction?.closeOnTap ?? false,
+        onTap: editAction?.performAction,
       );
     } else {
       return SlideAction(
@@ -149,7 +122,7 @@ class AppDismissible extends StatelessWidget {
             //   ],
             // ).show(context);
           } else {
-            Slidable.of(context).dismiss();
+            Slidable.of(context)!.dismiss();
           }
         },
       );
@@ -159,8 +132,8 @@ class AppDismissible extends StatelessWidget {
 
 class JoySlidableController extends SlidableController {
   JoySlidableController({
-    ValueChanged<Animation<double>> onSlideAnimationChanged,
-    ValueChanged<bool> onSlideIsOpenChanged,
+    ValueChanged<Animation<double>?>? onSlideAnimationChanged,
+    ValueChanged<bool?>? onSlideIsOpenChanged,
   }) : super(
           onSlideAnimationChanged: onSlideAnimationChanged,
           onSlideIsOpenChanged: onSlideIsOpenChanged,
@@ -170,12 +143,12 @@ class JoySlidableController extends SlidableController {
 class ActionConfiguration {
   final String label;
   final VoidCallback performAction;
-  final IconData icon;
+  final IconData? icon;
   final bool closeOnTap;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   const ActionConfiguration({
-    @required this.label,
-    @required this.performAction,
+    required this.label,
+    required this.performAction,
     this.icon,
     this.closeOnTap = false,
     this.backgroundColor,
@@ -187,22 +160,23 @@ class ConfirmationDialogConfiguration {
   final String dialogDescription;
   final String confirmLabel;
   final String cancelLabel;
+
   const ConfirmationDialogConfiguration({
-    @required this.dialogTitle,
-    @required this.dialogDescription,
-    @required this.confirmLabel,
-    @required this.cancelLabel,
+    required this.dialogTitle,
+    required this.dialogDescription,
+    required this.confirmLabel,
+    required this.cancelLabel,
   });
 }
 
 class SnackbarConfiguration {
   final String title;
-  final String actionLabel;
-  final VoidCallback onActionTap;
-  final VoidCallback onSnackbarClosed;
+  final String? actionLabel;
+  final VoidCallback? onActionTap;
+  final VoidCallback? onSnackbarClosed;
 
   const SnackbarConfiguration({
-    @required this.title,
+    required this.title,
     this.onSnackbarClosed,
     this.actionLabel,
     this.onActionTap,
