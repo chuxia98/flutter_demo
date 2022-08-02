@@ -72,6 +72,7 @@ class _ListView extends StatelessWidget {
     'dismissible': const DismissiblePage(),
     'Videoplayer List': const VideoplayerListPage(),
     'TextField': const VideoplayerListPage(),
+    'TextField/Videoplayer bug test': BugTestPage(),
   };
 
   @override

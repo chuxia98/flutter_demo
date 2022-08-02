@@ -77,7 +77,7 @@ class _ContentPage extends StatelessWidget {
           return ListView.builder(
             itemCount: _urls.length,
             itemBuilder: (context, index) {
-              return _VideoItem(url: _urls[index]);
+              return VideoItem(url: _urls[index]);
             },
           );
         },
@@ -86,18 +86,18 @@ class _ContentPage extends StatelessWidget {
   }
 }
 
-class _VideoItem extends StatefulWidget {
+class VideoItem extends StatefulWidget {
   final String url;
 
-  _VideoItem({
+  const VideoItem({
     required this.url,
   });
 
   @override
-  __VideoItemState createState() => __VideoItemState();
+  _VideoItemState createState() => _VideoItemState();
 }
 
-class __VideoItemState extends State<_VideoItem> {
+class _VideoItemState extends State<VideoItem> {
   String get url => widget.url;
 
   CustomPlayerModel? model;
@@ -176,6 +176,7 @@ class _VideoLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: _.randColor,
       child: Center(
         child: CircularProgressIndicator(),
       ),
