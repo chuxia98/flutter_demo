@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 
 const _urls = [
-  'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1280_10MG.mp4',
-  'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4',
-  'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+  'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+  // 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4',
+  // 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
   'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4',
   'https://samplelib.com/lib/download/mp4/sample-5s.mp4',
   'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_30mb.mp4'
@@ -119,9 +119,13 @@ class _VideoItemState extends State<VideoItem> {
   void initState() {
     super.initState();
 
-    if (!players.containsKey(url) && model != null) {
+    if (!players.containsKey(url) && model == null) {
       model = CustomPlayerModel(url: url);
       players[url] = model!;
+      print('[cx] not containsKey');
+    } else if (players.containsKey(url)) {
+      model = players[url];
+      print('[cx] containsKey');
     }
   }
 
@@ -161,11 +165,16 @@ class _VideoItemState extends State<VideoItem> {
                 ],
               );
             }
+            if (snap.hasError) {
+              return _VideoError(
+                error: snap.error.toString(),
+              );
+            }
             return _VideoLoading();
           },
         ),
       ),
-      padding: EdgeInsets.only(bottom: 100),
+      padding: EdgeInsets.only(bottom: 10),
     );
   }
 }
@@ -179,6 +188,27 @@ class _VideoLoading extends StatelessWidget {
       color: _.randColor,
       child: Center(
         child: CircularProgressIndicator(),
+      ),
+    );
+  }
+}
+
+class _VideoError extends StatelessWidget {
+  final String? error;
+
+  const _VideoError({
+    Key? key,
+    this.error,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: _.randColor,
+      child: Center(
+        child: Text(
+          error ?? 'Error',
+        ),
       ),
     );
   }

@@ -6,19 +6,31 @@ class BugTestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final body = Scaffold(
       appBar: AppBar(
-        title: Text('BUG'),
+        title: Text('BUG ??'),
       ),
       body: Column(
         children: [
           TextField(),
           VideoItem(
-            url:
-                'https://mybmwclub-media-int.bmw-emall.cn/mybmw-public/community/moment/55126f00-3d00-41c6-8f5e-32a75be4ff9d.mp4', // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+            url: 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4',
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: MaterialButton(
+              color: Colors.yellow,
+              height: 44,
+              child: Center(
+                child: Text('Button'.toUpperCase()),
+              ),
+              onPressed: () {},
+            ),
           ),
         ],
       ),
     );
+
+    return body;
   }
 }
