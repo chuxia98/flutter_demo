@@ -1,4 +1,7 @@
 # flutter_demo
-flutter 
 
-## Flutter 2.5.3
+flutter demo project for test
+
+## Flutter version
+
+upgrade to v2.10.5

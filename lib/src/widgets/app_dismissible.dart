@@ -13,7 +13,6 @@ class AppDismissible extends StatelessWidget {
   final SnackbarConfiguration? onDismissedSnackbar;
   final FutureOr<bool> Function()? willDismissCondition;
   final bool showActionIcon;
-  final JoySlidableController? slidableController;
 
   AppDismissible({
     Key? key,
@@ -26,39 +25,39 @@ class AppDismissible extends StatelessWidget {
     this.onDismissedSnackbar,
     this.willDismissCondition,
     this.showActionIcon = false,
-    this.slidableController,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Slidable.builder(
-      key: slidableKey,
-      controller: slidableController,
-      dismissal: SlidableDismissal(
-          child: SlidableDrawerDismissal(),
-          dragDismissible: dragToRemove,
-          onWillDismiss: (_) async {
-            var result = true;
-            if (willDismissCondition != null) {
-              result = await willDismissCondition?.call() ?? false;
-            }
-            return result;
-          },
-          onDismissed: (_) {
-            removeAction.performAction();
-          }),
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.208,
-      child: listItem,
-      secondaryActionDelegate: SlideActionBuilderDelegate(
-        actionCount: editAction != null ? 2 : 1,
-        builder: (context, index, animation, renderingMode) => _buildSlidableAction(
-          context,
-          index,
-          showIcon: showActionIcon,
-        ),
-      ),
-    );
+    return Container();
+    // return Slidable.builder(
+    //   key: slidableKey,
+    //   controller: slidableController,
+    //   dismissal: SlidableDismissal(
+    //       child: SlidableDrawerDismissal(),
+    //       dragDismissible: dragToRemove,
+    //       onWillDismiss: (_) async {
+    //         var result = true;
+    //         if (willDismissCondition != null) {
+    //           result = await willDismissCondition?.call() ?? false;
+    //         }
+    //         return result;
+    //       },
+    //       onDismissed: (_) {
+    //         removeAction.performAction();
+    //       }),
+    //   actionPane: SlidableDrawerActionPane(),
+    //   actionExtentRatio: 0.208,
+    //   child: listItem,
+    //   secondaryActionDelegate: SlideActionBuilderDelegate(
+    //     actionCount: editAction != null ? 2 : 1,
+    //     builder: (context, index, animation, renderingMode) => _buildSlidableAction(
+    //       context,
+    //       index,
+    //       showIcon: showActionIcon,
+    //     ),
+    //   ),
+    // );
   }
 
   Widget _buildSlidableAction(
@@ -66,78 +65,53 @@ class AppDismissible extends StatelessWidget {
     int index, {
     bool showIcon = false,
   }) {
+    SlidableAction(
+      onPressed: (context) {},
+      backgroundColor: editAction?.backgroundColor ?? Colors.red,
+    );
     final isEditAction = index == 0 && editAction != null;
     if (isEditAction) {
-      return SlideAction(
-        color: editAction?.backgroundColor ?? Colors.red,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 8,
-          ),
-          child: (showIcon && editAction?.icon != null)
-              ? Icon(editAction?.icon, color: Colors.orange)
-              : Text(
-                  editAction?.label ?? '',
-                  maxLines: 1,
-                ),
-        ),
-        closeOnTap: editAction?.closeOnTap ?? false,
-        onTap: editAction?.performAction,
-      );
+      // return SlidableAction(
+      //   color: editAction?.backgroundColor ?? Colors.red,
+      //   child: Padding(
+      //     padding: EdgeInsets.symmetric(
+      //       horizontal: 8,
+      //     ),
+      //     child: (showIcon && editAction?.icon != null)
+      //         ? Icon(editAction?.icon, color: Colors.orange)
+      //         : Text(
+      //             editAction?.label ?? '',
+      //             maxLines: 1,
+      //           ),
+      //   ),
+      //   closeOnTap: editAction?.closeOnTap ?? false,
+      //   onTap: editAction?.performAction,
+      // );
     } else {
-      return SlideAction(
-        color: removeAction.backgroundColor ?? Colors.red,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 8,
-          ),
-          child: (showIcon && removeAction.icon != null)
-              ? Icon(removeAction.icon, color: Colors.red)
-              : Text(
-                  removeAction.label,
-                  maxLines: 1,
-                ),
-        ),
-        closeOnTap: removeAction.closeOnTap,
-        onTap: () async {
-          if (confirmationRemoveDialog != null) {
-            // await JoyDialog(
-            //   title: confirmationRemoveDialog.dialogTitle,
-            //   description: confirmationRemoveDialog.dialogDescription,
-            //   actions: <Widget>[
-            //     JoyButton.primary(
-            //       text: confirmationRemoveDialog.confirmLabel,
-            //       onPressed: () {
-            //         JoyDialog.close(context);
-            //         Slidable.of(context).dismiss();
-            //       },
-            //     ),
-            //     JoyButton.secondary(
-            //       text: confirmationRemoveDialog.cancelLabel,
-            //       onPressed: () {
-            //         JoyDialog.close(context);
-            //         Slidable.of(context).close();
-            //       },
-            //     ),
-            //   ],
-            // ).show(context);
-          } else {
-            Slidable.of(context)!.dismiss();
-          }
-        },
-      );
+      // return SlideAction(
+      //   color: removeAction.backgroundColor ?? Colors.red,
+      //   child: Padding(
+      //     padding: EdgeInsets.symmetric(
+      //       horizontal: 8,
+      //     ),
+      //     child: (showIcon && removeAction.icon != null)
+      //         ? Icon(removeAction.icon, color: Colors.red)
+      //         : Text(
+      //             removeAction.label,
+      //             maxLines: 1,
+      //           ),
+      //   ),
+      //   closeOnTap: removeAction.closeOnTap,
+      //   onTap: () async {
+      //     if (confirmationRemoveDialog != null) {
+      //     } else {
+      //       Slidable.of(context)!.dismiss();
+      //     }
+      //   },
+      // );
     }
+    return Container();
   }
-}
-
-class JoySlidableController extends SlidableController {
-  JoySlidableController({
-    ValueChanged<Animation<double>?>? onSlideAnimationChanged,
-    ValueChanged<bool?>? onSlideIsOpenChanged,
-  }) : super(
-          onSlideAnimationChanged: onSlideAnimationChanged,
-          onSlideIsOpenChanged: onSlideIsOpenChanged,
-        );
 }
 
 class ActionConfiguration {
