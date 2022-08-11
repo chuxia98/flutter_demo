@@ -7,6 +7,11 @@ abstract class BaseModel extends Equatable {
   final String? id;
   final String? title;
 
+  String? get description => '';
+
+  double get latitude => 0;
+  double get longitude => 0;
+
   BaseModel({
     this.id,
     this.title,
@@ -20,9 +25,50 @@ abstract class BaseModel extends Equatable {
 }
 
 @JsonSerializable()
+class BaseModelImpl extends BaseModel {
+  @override
+  @JsonKey(name: 'desc')
+  final String? description;
+
+  @override
+  final double latitude;
+  @override
+  final double longitude;
+
+  BaseModelImpl({
+    String? id,
+    String? title,
+    this.latitude = 0,
+    this.longitude = 0,
+    this.description,
+  }) : super(id: id, title: title);
+
+  factory BaseModelImpl.fromJson(Map<String, dynamic> json) => _$BaseModelImplFromJson(json);
+  Map<String, dynamic> toJson() => _$BaseModelImplToJson(this);
+}
+
+@JsonSerializable()
+class BaseModelImpl2 extends BaseModel {
+  @override
+  @JsonKey(name: 'DESC')
+  final String? description;
+
+  BaseModelImpl2({
+    String? title,
+    this.description,
+  }) : super(title: title);
+
+  factory BaseModelImpl2.fromJson(Map<String, dynamic> json) => _$BaseModelImpl2FromJson(json);
+  Map<String, dynamic> toJson() => _$BaseModelImpl2ToJson(this);
+}
+
+@JsonSerializable()
 class TripModel extends BaseModel {
+  final String trip;
+
   TripModel({
     String? id,
+    this.trip = '',
   }) : super(
           id: id,
         );
@@ -92,10 +138,13 @@ void main() {
   SimpleModel().copyWith(trip: 'tirp');
   final mate = MateModel(
     mate: 'mate',
-  );
+  )..id = '123';
+  final trip = TripModel(id: 'id');
   // mate.id = '1';
   // mate.id = '2';
   // mate.mate = '123';
+  // trip.id = 1;
+  print('[cx] ${trip.title}');
 
   doPrint(mate);
 }

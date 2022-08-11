@@ -35,14 +35,14 @@ dependencies:
 
   video_player: ^2.4.5
 
-  json_annotation: ^4.6.0 # json序列化和反序列化用的
+  json_annotation: ^4.5.0 # json序列化和反序列化用的
 # // flutter packages pub run build_runner build --delete-conflicting-outputs
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.2.0 # 开发时生成model用的
-  json_serializable: ^6.3.1 # json序列化和反序列化用的   
+  build_runner: ^2.1.11 # 开发时生成model用的
+  json_serializable: ^6.2.0 # json序列化和反序列化用的   
   flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
